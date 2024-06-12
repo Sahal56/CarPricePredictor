@@ -3,39 +3,60 @@ import joblib
 import pandas as pd
 import numpy as np
 
-model=joblib.load(open('CarPricePredictor','rb'))
-car=pd.read_csv('newCar.csv')
+# with st.sidebar:
+#     add_radio = st.text("Created by SAHAL PATHAN")
 
-st.title('Car Price Predictor')
+
+@st.cache_data  # 👈 Add the caching decorator
+def GetData():
+    model=joblib.load(open('./models/CarPricePredictor','rb'))
+    car=pd.read_csv('./datasets/newCar.csv')
+    companies=sorted(car['company'].unique())
+    fuels=car['fuel_type'].unique()
+    years=sorted(car['year'].unique(),reverse=True)
+    return model,car,companies,fuels,years
+
+model,car,companies,fuels,years = GetData()
+
+# Emoji for car :{}: car or oncoming_automobile
+st.title('Car :red[Price] Predictor :oncoming_automobile:')
+st.divider()
+
 st.subheader('Select the details')
 
-col1, col2, col3, col4 = st.columns(4)
+colA1, colA2, colA3 = st.columns(3)
 
-with col1:
-   companies=sorted(car['company'].unique())
-   company = st.selectbox("Company:", companies)
+with colA1:
+   company = st.selectbox("Company :man-shrugging:", companies)
 
-with col2:
-   car_models=sorted(car[car.name.str.startswith(company)]['name'].unique())
-   car_model = st.selectbox("Model:", car_models)
+with colA2:
+    year = st.selectbox("Year :date:", years)
 
-with col3:
-    years=sorted(car['year'].unique(),reverse=True)
-    year = st.selectbox("Year:", years)
+with colA3:
+    fuels=sorted(car[car.name.str.startswith(company)]['fuel_type'].unique())
+    fuel_type = st.selectbox("Fuel Type :oil_drum:", fuels)
 
-with col4:
-    fuels=car['fuel_type'].unique()
-    fuel_type = st.selectbox("Fuel Type:", fuels)
-    
-driven = st.number_input('Kilometres travelled:')
+colB1, colB2 = st.columns(2)
 
-if st.button('Predict'):
+with colB1:
+    car_models = sorted(car[car.name.str.startswith(company)]['name'].unique())
+    car_model = st.selectbox("Model :diamond_shape_with_a_dot_inside:", car_models)
+
+with colB2:
+    driven = st.number_input(label='Kilometres travelled :motorway:', min_value=1, max_value=1000000)
+
+
+if st.button('Predict :money_with_wings:'):
     if not car_model or not company or not year or not driven or not fuel_type:
         st.warning('Select Properly')
     else:
         st.balloons()
-        prediction=model.predict(pd.DataFrame(columns=['name', 'company', 'year', 'kms_driven', 'fuel_type'],
-                                          data=np.array([car_model,company,year,driven,fuel_type]).reshape(1, 5)))
-        prediction=prediction[0].astype(str)
-        st.text('₹ ' + prediction)
+        ipData = pd.DataFrame(columns=['name', 'company', 'year', 'kms_driven', 'fuel_type'],
+                                          data=np.array([car_model,company,year,driven,fuel_type]).reshape(1, 5))
+        prediction = model.predict(ipData)
+        prediction = prediction[0].astype(str)
+        # print(type(prediction[0]))
+
+        st.divider()
+        st.markdown("**Value** of Your :red[Car] is :blue-background[ ₹ " + prediction + " :moneybag:]")
 
