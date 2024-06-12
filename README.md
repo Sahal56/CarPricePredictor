@@ -9,11 +9,15 @@ Tools & libraries:
 - GUI Dashboard : streamlit
 
 
-# Author
+## Author
 
-[SAHAL PATHAN](https://github.com/sahal56)
+- [SAHAL PATHAN](https://github.com/sahal56)
 
-# Explanation
+## Demo
+
+## Deployment
+
+## Explanation
 1. The price of a car depends on a lot of factors like the goodwill of the brand of the car, features of the car, 
 horsepower and the mileage it gives and many more.
 
@@ -47,3 +51,20 @@ Before that we will use OneHotEncoder for encoding/transforming features into nu
 8. app.py contain gui interaction model with user 
     - It uses flask
     - It loads the model via joblib and make prediction after filling values
+
+## EXTRAS
+
+Install a Virtual Environment `pip install virtualenv`
+
+Use `python<version> -m venv <virtual-environment-name>`
+
+Activate `source env/bin/activate`
+
+Check `pip list`
+
+requirements.txt file :
+- `pip freeze > requirements.txt`
+
+- `pip install -r requirements.txt`
+
+Deactivate `deactivate`
