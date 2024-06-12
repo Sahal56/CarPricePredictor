@@ -14,8 +14,10 @@ Tools & libraries:
 - [SAHAL PATHAN](https://github.com/sahal56)
 
 ## Demo
+![result-carpredictor](https://github.com/Sahal56/CarPricePredictor/assets/63746256/ab5d56c5-8ef8-4e37-bac6-a39e8c9c408e)
 
 ## Deployment
+[STREAMLIT-LINK](https://car-pricepredictor-sahal.streamlit.app/)
 
 ## Explanation
 1. The price of a car depends on a lot of factors like the goodwill of the brand of the car, features of the car, 
